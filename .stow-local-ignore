@@ -1,1 +1,6 @@
+# Git stuff
+.git
 .gitattributes
+
+# Misc
+README.md
