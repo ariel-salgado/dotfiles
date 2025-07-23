@@ -1,5 +1,6 @@
 # Git stuff
 .git
+.gitignore
 .gitattributes
 
 # Misc
