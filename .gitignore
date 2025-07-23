@@ -1,6 +1,6 @@
 # tmux
-tmux/.config/tmux/resurrect
+resurrect/
 
 # zsh
-zsh/.config/zsh/.zhistory
-zsh/.config/zsh/.zcompdump
+.zhistory
+.zcompdump
