@@ -1,0 +1,65 @@
+# The main prompt on the left.
+format = """$directory$git_branch$character"""
+
+# The nodejs module on the right.
+right_format = "$nodejs"
+
+# Use an empty line between prompts.
+add_newline = false
+
+[character]
+success_symbol = "[❯](bold #cba6f7)" # Mauve
+error_symbol = "[❯](bold #f38ba8)"   # Red
+vimcmd_symbol = "[❮](bold #a6e3a1)"  # Green
+
+[directory]
+style = "bold #89b4fa" # Blue
+truncation_length = 2 # Show the current directory and its parent
+truncate_to_repo = true
+format = "[$path]($style) "
+
+[git_branch]
+symbol = " " # Nerd Font icon for Git
+style = "bold #a6e3a1" # Green
+format = "on [$symbol$branch]($style) "
+
+[nodejs]
+symbol = "󰎙 " # Nerd Font icon for Node.js
+style = "bold #94e2d5" # Teal
+format = "via [$symbol($version)]($style) "
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+
+# Disable modules we don't need for a minimal setup
+[aws]
+disabled = true
+[bun]
+disabled = true
+[cmd_duration]
+disabled = true
+[conda]
+disabled = true
+[dart]
+disabled = true
+[docker_context]
+disabled = true
+[golang]
+disabled = true
+[java]
+disabled = true
+[jobs]
+disabled = true
+[memory_usage]
+disabled = true
+[package]
+disabled = true
+[python]
+disabled = true
+[rust]
+disabled = true
+[time]
+disabled = true
+[username]
+disabled = true
+[hostname]
+disabled = true
