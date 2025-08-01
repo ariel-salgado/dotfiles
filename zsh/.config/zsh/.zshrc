@@ -13,4 +13,15 @@ setopt HIST_SAVE_NO_DUPS				# Do not write a duplicate event to the history file
 setopt HIST_VERIFY						# Do not execute immediately upon history expansion.
 
 # Completition
-source $ZDOTDIR/completion.zsh
+[ -f "$ZDOTDIR/completion.zsh" ] && source "$ZDOTDIR/completion.zsh"
+
+# Custom
+[ -f "$ZDOTDIR/custom.zsh" ] && source "$ZDOTDIR/custom.zsh"
+
+# pnpm
+export PNPM_HOME="/home/ariel/.config/local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
