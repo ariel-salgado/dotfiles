@@ -31,6 +31,7 @@ vim.opt.termguicolors = true
 vim.opt.background = "dark"
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
+vim.o.hlsearch = false 
 
 -- Backspace
 vim.opt.backspace = { "start", "eol", "indent" }
@@ -45,3 +46,11 @@ vim.opt.clipboard:append("unnamedplus")
 vim.opt.hlsearch = true
 vim.opt.mouse = "a"
 vim.g.editorconfig = true
+vim.o.completeopt = "menuone,noselect"
+
+-- Beam cursor
+vim.opt.guicursor = "n-v-c:ver25-blinkon1,i-ci:ver25-blinkon1,r-cr:ver25-blinkon1,o:ver25-blinkon1"
+
+-- Ignore case for searches
+vim.opt.ignorecase = true
+vim.opt.smartcase = true

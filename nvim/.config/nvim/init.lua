@@ -1,2 +1,2 @@
-require("ariel-salgado.core")
-require("ariel-salgado.lazy")
+require("config")
+require("core")
