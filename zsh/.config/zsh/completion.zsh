@@ -1,9 +1,8 @@
-autoload -U compinit; compinit
-_comp_options+=(globdots) # With hidden files
+source $ZDOTDIR/.zinit/bin/zi.zsh
 
-zstyle ':completion:*' completer _extensions _complete _approximate
+autoload -U compinit
+compinit
 
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
-
-zstyle ':completion:*' menu select
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
