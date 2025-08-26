@@ -1,5 +1,6 @@
+---@type vim.lsp.Config
 return {
-	cmd = { 'emmet-language-server', '--stdio' },
+	cmd = { 'emmet-ls', '--stdio' },
 	filetypes = {
 		'astro',
 		'css',

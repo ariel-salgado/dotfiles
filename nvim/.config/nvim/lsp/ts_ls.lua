@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
 	init_options = { hostInfo = 'neovim' },
 	cmd = { 'typescript-language-server', '--stdio' },
@@ -9,38 +10,67 @@ return {
 		'typescriptreact',
 		'typescript.tsx',
 	},
-	root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
-	settings = {
-		typescript = {
-			tsserver = {
-				useSyntaxServer = false,
-			},
-			inlayHints = {
-				includeInlayParameterNameHints = 'all',
-				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-				includeInlayFunctionParameterTypeHints = true,
-				includeInlayVariableTypeHints = true,
-				includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-				includeInlayPropertyDeclarationTypeHints = true,
-				includeInlayFunctionLikeReturnTypeHints = true,
-				includeInlayEnumMemberValueHints = true,
-			},
-			includeCompletionsForModuleExports = true,
-			includeCompletionsWithInsertText = true,
-		},
-		javascript = {
-		},
-			inlayHints = {
-				includeInlayParameterNameHints = 'all',
-				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-				includeInlayFunctionParameterTypeHints = true,
-				includeInlayVariableTypeHints = true,
-				includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-				includeInlayPropertyDeclarationTypeHints = true,
-				includeInlayFunctionLikeReturnTypeHints = true,
-				includeInlayEnumMemberValueHints = true,
-			},
-			includeCompletionsForModuleExports = true,
-			includeCompletionsWithInsertText = true,
+	root_dir = function(bufnr, on_dir)
+		local root_markers = { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
+		root_markers = vim.fn.has('nvim-0.11.3') == 1 and { root_markers } or root_markers
+		local project_root = vim.fs.root(bufnr, root_markers)
+		if not project_root then
+			return
+		end
+
+		on_dir(project_root)
+	end,
+	handlers = {
+		['_typescript.rename'] = function(_, result, ctx)
+			local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+			vim.lsp.util.show_document({
+				uri = result.textDocument.uri,
+				range = {
+					start = result.position,
+					['end'] = result.position,
+				},
+			}, client.offset_encoding)
+			vim.lsp.buf.rename()
+			return vim.NIL
+		end,
 	},
+	commands = {
+		['editor.action.showReferences'] = function(command, ctx)
+			local client = assert(vim.lsp.get_client_by_id(ctx.client_id))
+			local file_uri, position, references = unpack(command.arguments)
+
+			local quickfix_items = vim.lsp.util.locations_to_items(references, client.offset_encoding)
+			vim.fn.setqflist({}, ' ', {
+				title = command.title,
+				items = quickfix_items,
+				context = {
+					command = command,
+					bufnr = ctx.bufnr,
+				},
+			})
+
+			vim.lsp.util.show_document({
+				uri = file_uri,
+				range = {
+					start = position,
+					['end'] = position,
+				},
+			}, client.offset_encoding)
+
+			vim.cmd('botright copen')
+		end,
+	},
+	on_attach = function(client, bufnr)
+		vim.api.nvim_buf_create_user_command(bufnr, 'LspTypescriptSourceAction', function()
+			local source_actions = vim.tbl_filter(function(action)
+				return vim.startswith(action, 'source.')
+			end, client.server_capabilities.codeActionProvider.codeActionKinds)
+
+			vim.lsp.buf.code_action({
+				context = {
+					only = source_actions,
+				},
+			})
+		end, {})
+	end,
 }
