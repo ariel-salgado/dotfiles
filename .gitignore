@@ -3,5 +3,6 @@ resurrect/
 plugins/
 
 # zsh
+.zinit/
 .zhistory
 .zcompdump
