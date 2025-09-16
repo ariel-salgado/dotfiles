@@ -1,36 +1,36 @@
 # The main prompt on the left.
 format = """$directory$git_branch$character"""
 
-# The nodejs module on the right.
+# Right prompt
 right_format = "$nodejs"
 
-# Use an empty line between prompts.
+# No newline between prompts
 add_newline = false
 
 [character]
-success_symbol = "[❯](bold #cba6f7)" # Mauve
-error_symbol = "[❯](bold #f38ba8)"   # Red
-vimcmd_symbol = "[❮](bold #a6e3a1)"  # Green
+success_symbol = "[❯](bold #c4a7e7)"   # Iris
+error_symbol = "[❯](bold #eb6f92)"     # Love
+vimcmd_symbol = "[❮](bold #9ccfd8)"    # Foam
 
 [directory]
-style = "bold #89b4fa" # Blue
-truncation_length = 2 # Show the current directory and its parent
+style = "bold #3e8fb0" # Pine
+truncation_length = 2
 truncate_to_repo = true
 format = "[$path]($style) "
 
 [git_branch]
-symbol = " " # Nerd Font icon for Git
-style = "bold #a6e3a1" # Green
+symbol = " "
+style = "bold #ea9a97" # Rose
 format = "on [$symbol$branch]($style) "
 
 [nodejs]
-symbol = "󰎙 " # Nerd Font icon for Node.js
-style = "bold #94e2d5" # Teal
+symbol = "󰎙 "
+style = "bold #9ccfd8" # Foam
 format = "via [$symbol($version)]($style) "
 detect_files = ["package.json", ".node-version"]
 detect_folders = ["node_modules"]
 
-# Disable modules we don't need for a minimal setup
+# Disable unneeded modules
 [aws]
 disabled = true
 [bun]

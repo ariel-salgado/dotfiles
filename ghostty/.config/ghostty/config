@@ -16,13 +16,13 @@ mouse-scroll-multiplier = 2
 mouse-hide-while-typing = true
 
 # theme
-theme = catppuccin-macchiato 
+theme = rose-pine-moon
 bold-is-bright = true
 
 # window
 initial-window = true
 resize-overlay = never
-background-opacity = 0.8
+background-opacity = 0.9
 window-save-state = always
 window-step-resize = false
 background-blur-radius = 15
