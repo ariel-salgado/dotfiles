@@ -1,65 +1,37 @@
-# The main prompt on the left.
-format = """$directory$git_branch$character"""
-
-# Right prompt
-right_format = "$nodejs"
-
-# No newline between prompts
 add_newline = false
 
-[character]
-success_symbol = "[❯](bold #c4a7e7)"   # Iris
-error_symbol = "[❯](bold #eb6f92)"     # Love
-vimcmd_symbol = "[❮](bold #9ccfd8)"    # Foam
+# Left prompt: [user@host cwd] $
+format = '\[$username@$hostname $directory\] $character'
+
+# Right prompt: [ branch] [time]
+right_format = '$git_branch \[$time\]'
+
+# --- Modules ---
+
+[username]
+show_always = true
+format = "$user"
+style_user = "bold"
+
+[hostname]
+ssh_only = false
+format = "$hostname"
+style = "bold"
 
 [directory]
-style = "bold #3e8fb0" # Pine
 truncation_length = 2
-truncate_to_repo = true
-format = "[$path]($style) "
+truncate_to_repo = false
+format = "$path"
+
+[character]
+success_symbol = "\\$"
+error_symbol = "\\$"
 
 [git_branch]
 symbol = " "
-style = "bold #ea9a97" # Rose
-format = "on [$symbol$branch]($style) "
+format = "\\[$symbol$branch\\]($style)"
 
-[nodejs]
-symbol = "󰎙 "
-style = "bold #9ccfd8" # Foam
-format = "via [$symbol($version)]($style) "
-detect_files = ["package.json", ".node-version"]
-detect_folders = ["node_modules"]
-
-# Disable unneeded modules
-[aws]
-disabled = true
-[bun]
-disabled = true
-[cmd_duration]
-disabled = true
-[conda]
-disabled = true
-[dart]
-disabled = true
-[docker_context]
-disabled = true
-[golang]
-disabled = true
-[java]
-disabled = true
-[jobs]
-disabled = true
-[memory_usage]
-disabled = true
-[package]
-disabled = true
-[python]
-disabled = true
-[rust]
-disabled = true
 [time]
-disabled = true
-[username]
-disabled = true
-[hostname]
-disabled = true
+disabled = false
+format = "$time"
+time_format = "%H:%M:%S"

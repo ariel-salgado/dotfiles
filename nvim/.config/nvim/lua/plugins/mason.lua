@@ -12,25 +12,28 @@ return {
 		"neovim/nvim-lspconfig",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
-	opts = {
-		ensure_installed = {
-			"cssls",
-			"emmet_ls",
-			"html",
-			"jsonls",
-			"marksman",
-			"svelte",
-			"tailwindcss",
-			"taplo",
-			"ts_ls",
-			"yamlls",
-		},
-	},
-	config = function(_, opts)
-		require("mason-lspconfig").setup(opts)
+	config = function()
+		require("mason-lspconfig").setup({
+			automatic_enable = {
+				exclude = { "eslint" },
+			},
+			ensure_installed = {
+				"cssls",
+				"eslint",
+				"emmet_language_server",
+				"html",
+				"jsonls",
+				"lua_ls",
+				"marksman",
+				"svelte",
+				"tailwindcss",
+				"taplo",
+				"vtsls",
+				"yamlls",
+			},
+		})
 		require("mason-tool-installer").setup({
 			ensure_installed = {
-				"eslint_d",
 				"stylua",
 			},
 		})

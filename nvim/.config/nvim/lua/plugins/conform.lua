@@ -6,32 +6,28 @@ return {
 		{
 			"<leader>fm",
 			function()
-				require("conform").format({ async = true })
+				require("conform").format({ async = true, lsp_fallback = true })
 			end,
 			mode = "",
-			desc = "Format buffer",
+			desc = "[F]ormat buffer",
 		},
 	},
 	---@module "conform"
 	---@type conform.setupOpts
 	opts = {
+		notify_on_error = false,
+		format_on_save = function(bufnr)
+			local disable_filetypes = {}
+			return {
+				timeout_ms = 500,
+				lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+			}
+		end,
 		formatters_by_ft = {
 			lua = { "stylua" },
-			javascript = { "eslint_d" },
-			typescript = { "eslint_d" },
-			svelte = { "eslint_d" },
-		},
-		default_format_opts = {
-			lsp_format = "fallback",
-		},
-		format_on_save = { timeout_ms = 1000 },
-		formatters = {
-			shfmt = {
-				append_args = { "-i", "2" },
-			},
+			javascript = { "eslint", "prettierd", "prettier", stop_after_first = true },
+			typescript = { "eslint", "prettierd", "prettier", stop_after_first = true },
+			svelte = { "eslint", "prettierd", "prettier", stop_after_first = true },
 		},
 	},
-	init = function()
-		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-	end,
 }

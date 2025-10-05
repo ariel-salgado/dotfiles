@@ -1,8 +1,8 @@
 # tmux
-tmux/.config/tmux/resurrect/
-tmux/.config/tmux/plugins/
+tmux/.config/tmux/resurrect
+tmux/.config/tmux/plugins
 
 # zsh
-.zinit/
-.zhistory
-.zcompdump
+zsh/.config/zsh/zinit
+zsh/.config/zsh/.zhistory
+zsh/.config/zsh/.zcompdump

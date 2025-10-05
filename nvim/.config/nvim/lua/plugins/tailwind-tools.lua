@@ -7,11 +7,5 @@ return {
 		"nvim-telescope/telescope.nvim",
 		"neovim/nvim-lspconfig",
 	},
-	opts = {
-		extension = {
-			patterns = {
-				javascript = { "clsx%(([^)]+)%)" },
-			},
-		},
-	},
+	opts = {},
 }
