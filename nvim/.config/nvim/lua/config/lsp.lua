@@ -58,3 +58,44 @@ vim.lsp.config("eslint", {
 		},
 	},
 })
+
+-- LSP keymaps
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		local opts = { buffer = ev.buf, silent = true }
+
+		opts.desc = "Show LSP references"
+		vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
+
+		opts.desc = "Go to declaration"
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
+		opts.desc = "Show LSP definitions"
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+		opts.desc = "Show LSP implementations"
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+
+		opts.desc = "Show LSP type definitions"
+		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+
+		opts.desc = "See available code actions"
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+		opts.desc = "Smart rename"
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
+		opts.desc = "Show buffer diagnostics"
+		vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
+
+		opts.desc = "Show line diagnostics"
+		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+		opts.desc = "Show documentation for what is under cursor"
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+		opts.desc = "Restart LSP"
+		vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+	end,
+})

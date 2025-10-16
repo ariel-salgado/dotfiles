@@ -7,7 +7,6 @@ return {
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
 		"onsails/lspkind.nvim",
-		"windwp/nvim-autopairs",
 		"luckasRanarison/tailwind-tools.nvim",
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
@@ -15,7 +14,6 @@ return {
 	config = function()
 		local cmp = require("cmp")
 		local lspkind = require("lspkind")
-		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 		cmp.setup({
 			snippet = {
@@ -76,8 +74,5 @@ return {
 				{ name = "cmdline" },
 			}),
 		})
-
-		-- Insert `(` after select function or method item
-		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 	end,
 }
