@@ -1,0 +1,18 @@
+"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+
+[flavor]
+light = "rose-pine-moon"
+dark = "rose-pine-moon"
+
+[mode]
+normal_main = { bg = "#ea9a97", fg = "#21202e" }
+normal_alt = { bg = "#393552", fg = "#ea9a97" }
+select_main = { bg = "#c4a7e7", fg = "#21202e" }
+select_alt = { bg = "#393552", fg = "#c4a7e7" }
+unset_main = { bg = "#9ccfd8", fg = "#21202e" }
+unset_alt = { bg = "#393552", fg = "#9ccfd8" }
+
+[status]
+overall = { bg = "reset" }
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
