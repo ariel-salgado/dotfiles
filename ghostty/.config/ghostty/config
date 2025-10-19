@@ -1,5 +1,5 @@
 # Font
-font-size = 13
+font-size = 12
 font-style = medium
 font-family = MonoLisa Variable
 
@@ -38,6 +38,7 @@ auto-update = check
 auto-update-channel = stable
 quit-after-last-window-closed = true
 shell-integration-features = true
+bell-features = no-title
 
 # shell
 command = /usr/bin/zsh
