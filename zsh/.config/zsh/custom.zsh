@@ -15,7 +15,7 @@ command -v zoxide &> /dev/null && eval "$(zoxide init zsh --cmd cd)"
 command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 
 # starship
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 eval "$(starship init zsh)"
 
 # 5. custom aliases
