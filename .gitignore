@@ -1,3 +1,6 @@
+# ghostty
+ghostty/.config/ghostty/config-*
+
 # tmux
 tmux/.config/tmux/resurrect
 tmux/.config/tmux/plugins
