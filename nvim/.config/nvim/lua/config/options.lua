@@ -78,6 +78,7 @@ vim.opt.encoding = "utf-8" -- Use UTF-8 encoding
 vim.opt.wildmenu = true -- Enable command-line completion menu
 vim.opt.wildmode = "longest:full,full" -- Completion mode for command-line
 vim.opt.wildignorecase = true -- Case-insensitive tab completion in commands
+vim.opt.textwidth = 120
 
 -- Cursor Settings
 -- vim.opt.guicursor = { "a:ver25-blinkwait700-blinkon400-blinkoff250" } -- Blinking beam cursor
