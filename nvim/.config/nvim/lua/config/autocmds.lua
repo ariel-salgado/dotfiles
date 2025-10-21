@@ -23,13 +23,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		})
 	end,
 })
-
--- Auto-format on save using an autocommand
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*",
-	callback = function()
-		local save_cursor = vim.fn.getpos(".")
-		vim.cmd([[normal! gggqG]])
-		vim.fn.setpos(".", save_cursor)
-	end,
-})
