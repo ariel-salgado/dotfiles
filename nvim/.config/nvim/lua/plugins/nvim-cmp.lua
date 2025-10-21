@@ -40,6 +40,7 @@ return {
 				end, { "i", "c" }),
 			}),
 			sources = cmp.config.sources({
+				{ name = "supermaven" },
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "path" },
@@ -50,7 +51,10 @@ return {
 					mode = "symbol",
 					maxwidth = 50,
 					ellipsis_char = "...",
-					symbol_map = { Copilot = "" },
+					symbol_map = {
+						Copilot = "",
+						Supermaven = "",
+					},
 					show_labelDetails = true,
 					before = require("tailwind-tools.cmp").lspkind_format,
 				}),
