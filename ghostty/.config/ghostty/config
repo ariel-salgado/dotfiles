@@ -23,7 +23,7 @@ background = "#020002"
 # window
 initial-window = true
 resize-overlay = never
-background-opacity = 0.5
+background-opacity = 0.6
 window-save-state = always
 window-step-resize = false
 background-blur-radius = false
