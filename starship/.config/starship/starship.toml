@@ -1,37 +1,41 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = false
 
-# Left prompt: [user@host cwd] $
-format = '\[$username@$hostname $directory\] $character'
+format = """
+$directory\
+$git_branch\
+$character\
+"""
 
-# Right prompt: [ branch] [time]
-right_format = '$git_branch \[$time\]'
+# ─── rose pine palette ───────────────────────
 
-# --- Modules ---
+palette = "rose-pine"
 
-[username]
-show_always = true
-format = "$user"
-style_user = "bold"
+[palettes.rose-pine]
+love = "#eb6f92"
+gold = "#f6c177"
+rose = "#ebbcba"
+pine = "#31748f"
+foam = "#9ccfd8"
+iris = "#c4a7e7"
 
-[hostname]
-ssh_only = false
-format = "$hostname"
-style = "bold"
+# ─── modules ─────────────────────────────────
 
 [directory]
+format = '[$path ]($style)'
+style = "bold foam"
 truncation_length = 2
+truncation_symbol = ""
 truncate_to_repo = false
-format = "$path"
-
-[character]
-success_symbol = "\\$"
-error_symbol = "\\$"
+home_symbol = "~"
 
 [git_branch]
-symbol = " "
-format = "\\[$symbol$branch\\]($style)"
-
-[time]
+format = 'on [ $branch ]($style)'
+symbol = ""
+style = "bold iris"
 disabled = false
-format = "$time"
-time_format = "%H:%M:%S"
+
+[character]
+success_symbol = "[](bold foam)"
+error_symbol = "[](bold love)"
