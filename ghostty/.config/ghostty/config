@@ -8,8 +8,9 @@ cursor-style = bar
 cursor-style-blink = false
 
 # clipboard
-# copy-on-select = clipboard
+copy-on-select = clipboard
 clipboard-trim-trailing-spaces = true
+app-notifications = no-clipboard-copy
 
 # mouse
 mouse-scroll-multiplier = 2
