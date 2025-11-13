@@ -36,3 +36,6 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env`"
 fi
 # fnm end
+
+# aliases
+alias gc='git commit -m'
