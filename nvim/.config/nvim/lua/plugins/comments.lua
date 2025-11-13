@@ -1,15 +1,27 @@
 return {
-	"folke/todo-comments.nvim",
-	dependencies = {
-		"nvim-telescope/telescope.nvim",
-		"nvim-lua/plenary.nvim",
+	{
+		"folke/todo-comments.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {},
+		config = function(_, opts)
+			require("todo-comments").setup(opts)
+		end,
 	},
-	opts = {},
-	config = function(_, opts)
-		require("todo-comments").setup(opts)
-
-		vim.keymap.set("n", "<leader>ft", function()
-			require("telescope").extensions["todo-comments"].todo()
-		end, { desc = "Open TODOs with Telescope" })
-	end,
+	{
+		"numToStr/Comment.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			pre_hook = function()
+				if vim.bo.filetype == "typescriptreact" or vim.bo.filetype == "javascriptreact" then
+					require("ts_context_commentstring.internal").calculate_commentstring()
+				end
+			end,
+		},
+		config = function(_, opts)
+			require("Comment").setup(opts)
+		end,
+	},
 }

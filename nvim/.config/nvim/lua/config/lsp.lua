@@ -1,5 +1,5 @@
 vim.diagnostic.config({
-	virtual_lines = true,
+	virtual_text = true,
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = " ",
@@ -55,6 +55,7 @@ vim.lsp.config("eslint", {
 			{ rule = "*quotes", severity = "off", fixable = true },
 			{ rule = "*semi", severity = "off", fixable = true },
 			{ rule = "*/indent", severity = "off", fixable = true },
+			{ rule = "*/*-consistent-line-wrapping", severity = "off", fixable = true },
 		},
 	},
 })

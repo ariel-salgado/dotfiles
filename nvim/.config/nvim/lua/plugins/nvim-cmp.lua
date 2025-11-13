@@ -10,10 +10,16 @@ return {
 		"luckasRanarison/tailwind-tools.nvim",
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
+		"nvim-lua/plenary.nvim",
+		{
+			"antosha417/nvim-lsp-file-operations",
+			config = true,
+		},
 	},
 	config = function()
 		local cmp = require("cmp")
 		local lspkind = require("lspkind")
+		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		cmp.setup({
 			snippet = {
@@ -31,13 +37,6 @@ return {
 				["<C-Space>"] = cmp.mapping.complete(),
 				["<C-e>"] = cmp.mapping.abort(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
-				["<Tab>"] = cmp.mapping(function(fallback)
-					if cmp.visible() then
-						cmp.select_next_item()
-					else
-						fallback()
-					end
-				end, { "i", "c" }),
 			}),
 			sources = cmp.config.sources({
 				{ name = "supermaven" },
@@ -77,6 +76,12 @@ return {
 			}, {
 				{ name = "cmdline" },
 			}),
+		})
+
+		local capabilities = cmp_nvim_lsp.default_capabilities()
+
+		vim.lsp.config("*", {
+			capabilities = capabilities,
 		})
 	end,
 }

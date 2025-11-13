@@ -25,6 +25,7 @@ return {
 					"html",
 					"json",
 					"jsonc",
+					"jsdoc",
 					"yaml",
 					"toml",
 					"xml",
@@ -45,10 +46,10 @@ return {
 				incremental_selection = {
 					enable = true,
 					keymaps = {
-						init_selection = "ss",
-						node_incremental = "si",
-						scope_incremental = "sc",
-						node_decremental = "sd",
+						init_selection = "<C-Space>",
+						node_incremental = "<C-Space>",
+						scope_incremental = false,
+						node_decremental = "<BS>",
 					},
 				},
 				textobjects = {
@@ -78,6 +79,7 @@ return {
 				},
 			})
 
+			vim.treesitter.language.register("bash", "zsh")
 			vim.treesitter.language.register("markdown", "mdx")
 		end,
 	},
