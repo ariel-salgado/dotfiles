@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 -- Highlight the yanked text for 200ms
-local highlight_yank_group = vim.api.nvim_create_augroup("HighlightYank", {})
+local highlight_yank_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = highlight_yank_group,
 	pattern = "*",
@@ -20,6 +20,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.hl.on_yank({
 			higroup = "IncSearch",
 			timeout = 200,
+			on_visual = true,
 		})
+	end,
+})
+
+-- No auto comments on new line
+local no_auto_comment_group = vim.api.nvim_create_augroup("NoAutoComment", {})
+vim.api.nvim_create_autocmd("FileType", {
+	group = no_auto_comment_group,
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
 	end,
 })

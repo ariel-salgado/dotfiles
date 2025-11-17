@@ -46,6 +46,11 @@ return {
 		local root_markers = { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" }
 		root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
 			or vim.list_extend(root_markers, { ".git" })
+
+		if vim.fs.root(bufnr, { "deno.json", "deno.lock" }) then
+			return
+		end
+
 		local project_root = vim.fs.root(bufnr, root_markers) or vim.fn.getcwd()
 
 		local filename = vim.api.nvim_buf_get_name(bufnr)
@@ -121,6 +126,7 @@ return {
 
 				if #filtered_files > 0 then
 					config.settings.experimental = config.settings.experimental or {}
+					---@diagnostic disable-next-line: inject-field
 					config.settings.experimental.useFlatConfig = true
 					break
 				end
@@ -130,6 +136,7 @@ return {
 			local pnp_js = root_dir .. "/.pnp.js"
 			if vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js) then
 				local cmd = config.cmd
+				---@diagnostic disable-next-line: param-type-mismatch
 				config.cmd = vim.list_extend({ "yarn", "exec" }, cmd)
 			end
 		end
