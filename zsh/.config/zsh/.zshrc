@@ -39,3 +39,4 @@ fi
 
 # aliases
 alias gc='git commit -m'
+eval "$(~/.local/bin/mise activate zsh)"
