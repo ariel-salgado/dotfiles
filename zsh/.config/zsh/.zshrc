@@ -1,4 +1,4 @@
-# History
+# history
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
@@ -16,7 +16,6 @@ setopt HIST_VERIFY						          # Do not execute immediately upon history expa
 ZINIT_HOME="$ZINIT_DIR"
 [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
 [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-#zinit end
 
 # custom
 [ -f "$ZDOTDIR/custom.zsh" ] && source "$ZDOTDIR/custom.zsh"
@@ -27,16 +26,9 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
 
-# fnm
-FNM_PATH="/home/ariel/.config/local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-  export PATH="$FNM_PATH:$PATH"
-  eval "`fnm env`"
-fi
-# fnm end
+# mise
+eval "$(~/.local/bin/mise activate zsh)"
 
 # aliases
 alias gc='git commit -m'
-eval "$(~/.local/bin/mise activate zsh)"
