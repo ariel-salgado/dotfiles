@@ -17,7 +17,7 @@ return {
 		root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
 			or vim.list_extend(root_markers, { ".git" })
 
-		if vim.fs.root(bufnr, { "deno.json", "deno.lock" }) then
+		if vim.fs.root(bufnr, { "deno.json", "deno.jsonc", "deno.lock" }) then
 			return
 		end
 

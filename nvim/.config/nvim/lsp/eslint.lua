@@ -1,3 +1,6 @@
+local util = require("lspconfig.util")
+local lsp = vim.lsp
+
 local eslint_config_files = {
 	".eslintrc",
 	".eslintrc.js",
@@ -36,7 +39,7 @@ return {
 				arguments = {
 					{
 						uri = vim.uri_from_bufnr(bufnr),
-						version = vim.lsp.util.buf_versions[bufnr],
+						version = lsp.util.buf_versions[bufnr],
 					},
 				},
 			}, nil, bufnr)
@@ -47,7 +50,7 @@ return {
 		root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
 			or vim.list_extend(root_markers, { ".git" })
 
-		if vim.fs.root(bufnr, { "deno.json", "deno.lock" }) then
+		if vim.fs.root(bufnr, { "deno.json", "deno.jsonc", "deno.lock" }) then
 			return
 		end
 
@@ -55,7 +58,7 @@ return {
 
 		local filename = vim.api.nvim_buf_get_name(bufnr)
 		local eslint_config_files_with_package_json =
-			vim.lsp.config.util.insert_package_json(eslint_config_files, "eslintConfig", filename)
+			util.insert_package_json(eslint_config_files, "eslintConfig", filename)
 		local is_buffer_using_eslint = vim.fs.find(eslint_config_files_with_package_json, {
 			path = filename,
 			type = "file",
@@ -71,6 +74,7 @@ return {
 	end,
 	settings = {
 		validate = "on",
+		---@diagnostic disable-next-line: assign-type-mismatch
 		packageManager = nil,
 		useESLintClass = false,
 		experimental = {
@@ -134,10 +138,8 @@ return {
 
 			local pnp_cjs = root_dir .. "/.pnp.cjs"
 			local pnp_js = root_dir .. "/.pnp.js"
-			if vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js) then
-				local cmd = config.cmd
-				---@diagnostic disable-next-line: param-type-mismatch
-				config.cmd = vim.list_extend({ "yarn", "exec" }, cmd)
+			if type(config.cmd) == "table" and (vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js)) then
+				config.cmd = vim.list_extend({ "yarn", "exec" }, config.cmd --[[@as table]])
 			end
 		end
 	end,
