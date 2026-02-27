@@ -7,6 +7,7 @@ vim.opt.sidescrolloff = 8 -- Keep 8 columns left/right of cursor
 vim.opt.wrap = false -- Don't wrap lines
 vim.opt.cmdheight = 1 -- Command line height
 vim.opt.spelllang = { "en", "es" } -- Set language for spellchecking
+vim.opt.linebreak = true -- Break line into words
 
 -- Tabbing / Indentation
 vim.opt.tabstop = 4 -- Tab width
@@ -78,9 +79,6 @@ vim.opt.encoding = "utf-8" -- Use UTF-8 encoding
 vim.opt.wildmenu = true -- Enable command-line completion menu
 vim.opt.wildmode = "longest:full,full" -- Completion mode for command-line
 vim.opt.wildignorecase = true -- Case-insensitive tab completion in commands
-
--- Cursor Settings
--- vim.opt.guicursor = { "a:ver25-blinkwait700-blinkon400-blinkoff250" } -- Blinking beam cursor
 
 -- Folding Settings
 vim.opt.foldmethod = "expr" -- Use expression for folding

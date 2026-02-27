@@ -11,6 +11,7 @@ return {
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
 		"nvim-lua/plenary.nvim",
+		"windwp/nvim-autopairs",
 		{
 			"antosha417/nvim-lsp-file-operations",
 			config = true,
@@ -20,6 +21,7 @@ return {
 		local cmp = require("cmp")
 		local lspkind = require("lspkind")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
+		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 		cmp.setup({
 			snippet = {
@@ -39,7 +41,6 @@ return {
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
 			}),
 			sources = cmp.config.sources({
-				{ name = "supermaven" },
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
 				{ name = "path" },
@@ -59,6 +60,8 @@ return {
 				}),
 			},
 		})
+
+		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 		-- `/` search cmdline completion
 		cmp.setup.cmdline("/", {

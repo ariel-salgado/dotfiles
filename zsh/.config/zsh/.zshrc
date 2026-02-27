@@ -20,6 +20,13 @@ ZINIT_HOME="$ZINIT_DIR"
 # custom
 [ -f "$ZDOTDIR/custom.zsh" ] && source "$ZDOTDIR/custom.zsh"
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun completions
+[ -s "/home/ariel/.bun/_bun" ] && source "/home/ariel/.bun/_bun"
+
 # pnpm
 export PNPM_HOME="/home/ariel/.config/local/share/pnpm"
 case ":$PATH:" in
