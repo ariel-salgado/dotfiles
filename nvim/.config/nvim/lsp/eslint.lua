@@ -1,3 +1,6 @@
+local util = require("lspconfig.util")
+local lsp = vim.lsp
+
 local eslint_config_files = {
 	".eslintrc",
 	".eslintrc.js",
@@ -15,26 +18,48 @@ local eslint_config_files = {
 
 ---@type vim.lsp.Config
 return {
-	cmd = { "vscode-eslint-language-server", "--stdio" },
+	cmd = function(dispatchers, config)
+		local cmd = "vscode-eslint-language-server"
+		if (config or {}).root_dir then
+			local local_cmd = vim.fs.joinpath(config.root_dir, "node_modules/.bin", cmd)
+			if vim.fn.executable(local_cmd) == 1 then
+				cmd = local_cmd
+			end
+		end
+		return vim.lsp.rpc.start({ cmd, "--stdio" }, dispatchers)
+	end,
 	filetypes = {
 		"javascript",
 		"javascriptreact",
 		"typescript",
 		"typescriptreact",
 		"vue",
-		"svelte",
+		"html",
+		"markdown",
+		"json",
+		"jsonc",
+		"yaml",
+		"toml",
+		"xml",
+		"gql",
+		"graphql",
 		"astro",
-		"htmlangular",
+		"svelte",
+		"css",
+		"less",
+		"scss",
+		"pcss",
+		"postcss",
 	},
 	workspace_required = true,
 	on_attach = function(client, bufnr)
-		vim.api.nvim_buf_create_user_command(bufnr, "EslintFixAll", function()
+		vim.api.nvim_buf_create_user_command(bufnr, "LspEslintFixAll", function()
 			client:request_sync("workspace/executeCommand", {
 				command = "eslint.applyAllFixes",
 				arguments = {
 					{
 						uri = vim.uri_from_bufnr(bufnr),
-						version = vim.lsp.util.buf_versions[bufnr],
+						version = lsp.util.buf_versions[bufnr],
 					},
 				},
 			}, nil, bufnr)
@@ -53,7 +78,7 @@ return {
 
 		local filename = vim.api.nvim_buf_get_name(bufnr)
 		local eslint_config_files_with_package_json =
-			vim.lsp.config.util.insert_package_json(eslint_config_files, "eslintConfig", filename)
+			util.insert_package_json(eslint_config_files, "eslintConfig", filename)
 		local is_buffer_using_eslint = vim.fs.find(eslint_config_files_with_package_json, {
 			path = filename,
 			type = "file",
@@ -67,13 +92,13 @@ return {
 
 		on_dir(project_root)
 	end,
+	---@type lspconfig.settings.eslint
 	settings = {
 		validate = "on",
+		---@diagnostic disable-next-line: assign-type-mismatch
 		packageManager = nil,
 		useESLintClass = false,
-		experimental = {
-			useFlatConfig = false,
-		},
+		experimental = {},
 		codeActionOnSave = {
 			enable = false,
 			mode = "all",
@@ -81,7 +106,18 @@ return {
 		format = true,
 		quiet = false,
 		onIgnoredFiles = "off",
-		rulesCustomizations = {},
+		rulesCustomizations = {
+			{ rule = "style/*", severity = "off", fixable = true },
+			{ rule = "format/*", severity = "off", fixable = true },
+			{ rule = "*-indent", severity = "off", fixable = true },
+			{ rule = "*-spacing", severity = "off", fixable = true },
+			{ rule = "*-spaces", severity = "off", fixable = true },
+			{ rule = "*-order", severity = "off", fixable = true },
+			{ rule = "*-dangle", severity = "off", fixable = true },
+			{ rule = "*-newline", severity = "off", fixable = true },
+			{ rule = "*quotes", severity = "off", fixable = true },
+			{ rule = "*semi", severity = "off", fixable = true },
+		},
 		run = "onType",
 		problems = {
 			shortenToSingleLine = false,
@@ -108,32 +144,10 @@ return {
 				name = vim.fn.fnamemodify(root_dir, ":t"),
 			}
 
-			local flat_config_files = vim.tbl_filter(function(file)
-				return file:match("config")
-			end, eslint_config_files)
-
-			for _, file in ipairs(flat_config_files) do
-				local found_files = vim.fn.globpath(root_dir, file, true, true)
-
-				local filtered_files = {}
-				for _, found_file in ipairs(found_files) do
-					if string.find(found_file, "[/\\]node_modules[/\\]") == nil then
-						table.insert(filtered_files, found_file)
-					end
-				end
-
-				if #filtered_files > 0 then
-					config.settings.experimental = config.settings.experimental or {}
-					config.settings.experimental.useFlatConfig = true
-					break
-				end
-			end
-
 			local pnp_cjs = root_dir .. "/.pnp.cjs"
 			local pnp_js = root_dir .. "/.pnp.js"
-			if vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js) then
-				local cmd = config.cmd
-				config.cmd = vim.list_extend({ "yarn", "exec" }, cmd --[[@as table]])
+			if type(config.cmd) == "table" and (vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js)) then
+				config.cmd = vim.list_extend({ "yarn", "exec" }, config.cmd --[[@as table]])
 			end
 		end
 	end,
