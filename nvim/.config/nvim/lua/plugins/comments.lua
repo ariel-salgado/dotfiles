@@ -2,13 +2,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
 		opts = {},
-		config = function(_, opts)
-			require("todo-comments").setup(opts)
-		end,
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -20,8 +14,5 @@ return {
 				end
 			end,
 		},
-		config = function(_, opts)
-			require("Comment").setup(opts)
-		end,
 	},
 }
