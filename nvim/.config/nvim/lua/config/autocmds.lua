@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- Highlight when stopping cursos
+-- Highlight when stopping cursor
 local reference_highlight_group = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true })
 vim.api.nvim_create_autocmd("CursorMoved", {
 	group = reference_highlight_group,
@@ -56,6 +56,7 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 		end
 	end,
 })
+
 vim.api.nvim_create_autocmd("CursorMovedI", {
 	group = reference_highlight_group,
 	callback = function()

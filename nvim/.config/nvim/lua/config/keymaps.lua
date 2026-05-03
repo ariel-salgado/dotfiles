@@ -1,5 +1,8 @@
 local opts = { noremap = true, silent = true }
 
+-- Restart Neovim
+vim.keymap.set("n", "<leader>re", "<CMD>restart<CR>", opts)
+
 -- Disable the spacebar key's default behavior in Normal and Visual modes
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", opts)
 
@@ -60,3 +63,46 @@ vim.keymap.set("n", "J", "mzJ`z", opts)
 
 -- Replace word cursor is globally
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+
+-- LSP keymaps
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		local opts = { buffer = ev.buf, silent = true }
+
+		opts.desc = "Show LSP references"
+		vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
+
+		opts.desc = "Go to declaration"
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
+		opts.desc = "Show LSP definitions"
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+		opts.desc = "Show LSP implementations"
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+
+		opts.desc = "Show LSP type definitions"
+		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
+
+		opts.desc = "See available code actions"
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+		opts.desc = "Smart rename"
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+
+		opts.desc = "Show line diagnostics"
+		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+		opts.desc = "Show documentation for what is under cursor"
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+		opts.desc = "Restart LSP"
+		vim.keymap.set("n", "<leader>lr", function()
+			for _, client in ipairs(vim.lsp.get_clients()) do
+				client:stop(true)
+			end
+			vim.cmd("e")
+		end, opts)
+	end,
+})
