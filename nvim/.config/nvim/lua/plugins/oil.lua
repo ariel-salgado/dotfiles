@@ -3,7 +3,7 @@ return {
 	lazy = false,
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
-		"benomahony/oil-git.nvim",
+		"malewicz1337/oil-git.nvim",
 	},
 	---@module 'oil'
 	---@type oil.SetupOpts
