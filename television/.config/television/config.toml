@@ -1,0 +1,10 @@
+[ui]
+orientation = "landscape"
+theme = "default"
+
+[ui.theme_overrides]
+result_name_fg = "#9CCFD8"
+selection_fg = "#9CCFD8"
+selection_bg = "#44415A"
+channel_mode_fg = "#2A283E"
+channel_mode_bg = "#3E8FB0"
