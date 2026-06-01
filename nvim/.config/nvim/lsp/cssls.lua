@@ -15,7 +15,12 @@ return {
 	root_markers = { "package.json", ".git" },
 	---@type lspconfig.settings.cssls
 	settings = {
-		css = { validate = true },
+		css = {
+			validate = true,
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
 		scss = { validate = true },
 		less = { validate = true },
 	},
