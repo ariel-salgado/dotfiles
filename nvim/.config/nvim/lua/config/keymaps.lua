@@ -68,6 +68,7 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
+		---@diagnostic disable-next-line: redefined-local
 		local opts = { buffer = ev.buf, silent = true }
 
 		opts.desc = "Show LSP references"
