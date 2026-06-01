@@ -25,10 +25,17 @@ return {
 	---@type blink.cmp.Config
 	opts = {
 		keymap = {
-			preset = "none",
+			preset = "enter",
 			["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 			["<C-e>"] = { "hide", "fallback" },
-			["<CR>"] = { "accept", "fallback" },
+			["<CR>"] = {
+				function(cmp)
+					if cmp.is_visible() and cmp.get_selected_item() then
+						return cmp.accept()
+					end
+				end,
+				"fallback",
+			},
 
 			["<Tab>"] = { "snippet_forward", "fallback" },
 			["<S-Tab>"] = { "snippet_backward", "fallback" },
@@ -75,6 +82,13 @@ return {
 
 			documentation = {
 				auto_show = false,
+			},
+
+			list = {
+				selection = {
+					preselect = true,
+					auto_insert = false,
+				},
 			},
 
 			menu = {
