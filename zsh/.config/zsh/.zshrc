@@ -37,8 +37,5 @@ esac
 # mise
 eval "$(~/.local/bin/mise activate zsh)"
 
-# tv
-eval "$(tv init zsh)"
-
 # aliases
 alias gc='git commit -m'
