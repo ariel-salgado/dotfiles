@@ -15,7 +15,16 @@ return {
 	---@type lspconfig.settings.yamlls
 	settings = {
 		redhat = { telemetry = { enabled = false } },
-		yaml = { format = { enable = true } },
+		yaml = {
+			format = {
+				enable = true,
+			},
+			schemaStore = {
+				enable = false,
+				url = "",
+			},
+			schemas = require("schemastore").yaml.schemas(),
+		},
 	},
 	on_init = function(client)
 		client.server_capabilities.documentFormattingProvider = true

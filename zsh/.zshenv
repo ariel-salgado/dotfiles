@@ -6,3 +6,4 @@ export ZINIT_DIR="$ZDOTDIR/zinit/zinit.git"
 
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
+. "$HOME/.cargo/env"

@@ -34,22 +34,9 @@ return {
 		"typescript",
 		"typescriptreact",
 		"vue",
-		"html",
-		"markdown",
-		"json",
-		"jsonc",
-		"yaml",
-		"toml",
-		"xml",
-		"gql",
-		"graphql",
-		"astro",
 		"svelte",
-		"css",
-		"less",
-		"scss",
-		"pcss",
-		"postcss",
+		"astro",
+		"htmlangular",
 	},
 	workspace_required = true,
 	on_attach = function(client, bufnr)
@@ -106,18 +93,7 @@ return {
 		format = true,
 		quiet = false,
 		onIgnoredFiles = "off",
-		rulesCustomizations = {
-			{ rule = "style/*", severity = "off", fixable = true },
-			{ rule = "format/*", severity = "off", fixable = true },
-			{ rule = "*-indent", severity = "off", fixable = true },
-			{ rule = "*-spacing", severity = "off", fixable = true },
-			{ rule = "*-spaces", severity = "off", fixable = true },
-			{ rule = "*-order", severity = "off", fixable = true },
-			{ rule = "*-dangle", severity = "off", fixable = true },
-			{ rule = "*-newline", severity = "off", fixable = true },
-			{ rule = "*quotes", severity = "off", fixable = true },
-			{ rule = "*semi", severity = "off", fixable = true },
-		},
+		rulesCustomizations = {},
 		run = "onType",
 		problems = {
 			shortenToSingleLine = false,
@@ -140,7 +116,7 @@ return {
 		if root_dir then
 			config.settings = config.settings or {}
 			config.settings.workspaceFolder = {
-				uri = root_dir,
+				uri = vim.uri_from_fname(root_dir),
 				name = vim.fn.fnamemodify(root_dir, ":t"),
 			}
 
