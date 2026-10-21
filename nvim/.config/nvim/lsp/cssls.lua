@@ -13,6 +13,7 @@ return {
 	filetypes = { "css", "scss", "less", "pcss" },
 	init_options = { provideFormatter = true },
 	root_markers = { "package.json", ".git" },
+
 	---@type lspconfig.settings.cssls
 	settings = {
 		css = {
@@ -21,7 +22,23 @@ return {
 				unknownAtRules = "ignore",
 			},
 		},
-		scss = { validate = true },
-		less = { validate = true },
+		scss = {
+			validate = true,
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
+		less = {
+			validate = true,
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
+		pcss = {
+			validate = true,
+			lint = {
+				unknownAtRules = "ignore",
+			},
+		},
 	},
 }

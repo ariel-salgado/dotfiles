@@ -1,6 +1,10 @@
 # ghostty
 ghostty/.config/ghostty/config-*
 
+# nvim
+nvim/.config/nvim/colors
+nvim/.config/nvim/lua/lualine
+
 # tmux
 tmux/.config/tmux/resurrect
 tmux/.config/tmux/plugins
