@@ -1,47 +1,63 @@
-return {
-	"stevearc/conform.nvim",
-	event = { "BufWritePre" },
-	cmd = { "ConformInfo" },
-	---@module "conform"
-	---@type conform.setupOpts
-	opts = {
-		format_on_save = function(bufnr)
-			local ft = vim.bo[bufnr].filetype
-			if vim.tbl_contains({ "javascript", "typescript", "svelte" }, ft) then
-				local ok = pcall(function()
-					vim.cmd("LspEslintFixAll")
-				end)
-				if not ok then
-					require("conform").format({ bufnr = bufnr, lsp_format = "fallback", timeout_ms = 500 })
-				end
-				return
-			end
-			return { timeout_ms = 500, lsp_format = "fallback" }
-		end,
-		formatters_by_ft = {
-			lua = { "stylua" },
-		},
+---@module "conform"
+local conform = require("conform")
+
+conform.setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
 	},
-	keys = {
-		{
-			"<leader>fm",
-			function()
-				vim.schedule(function()
-					local ft = vim.bo.filetype
-					if vim.tbl_contains({ "javascript", "typescript", "svelte" }, ft) then
-						local ok = pcall(function()
-							vim.cmd("LspEslintFixAll")
-						end)
-						if not ok then
-							require("conform").format({ async = true, lsp_format = "fallback" })
-						end
-					else
-						require("conform").format({ async = true, lsp_format = "fallback" })
-					end
-				end)
-			end,
-			mode = { "n", "v" },
-			desc = "Format buffer or range",
-		},
-	},
+})
+
+---@type table<string, fun(client: vim.lsp.Client, bufnr: integer)>
+local fix_all = {
+	oxlint = function(client, bufnr)
+		client:request_sync("workspace/executeCommand", {
+			command = "oxc.fixAll",
+			arguments = { { uri = vim.uri_from_bufnr(bufnr) } },
+		}, 1000, bufnr)
+	end,
+	eslint = function(client, bufnr)
+		client:request_sync("workspace/executeCommand", {
+			command = "eslint.applyAllFixes",
+			arguments = { { uri = vim.uri_from_bufnr(bufnr), version = vim.lsp.util.buf_versions[bufnr] } },
+		}, 1000, bufnr)
+	end,
 }
+
+---@param bufnr integer
+---@param name string
+local function get_client(bufnr, name)
+	return vim.lsp.get_clients({ bufnr = bufnr, name = name })[1]
+end
+
+---@param bufnr? integer
+local function format(bufnr)
+	bufnr = bufnr or vim.api.nvim_get_current_buf()
+
+	local oxlint = get_client(bufnr, "oxlint")
+	if oxlint then
+		conform.format({ bufnr = bufnr, formatters = { "oxfmt" }, timeout_ms = 1000 })
+		fix_all.oxlint(oxlint, bufnr)
+		return
+	end
+
+	local eslint = get_client(bufnr, "eslint")
+	if eslint then
+		fix_all.eslint(eslint, bufnr)
+		return
+	end
+
+	conform.format({ bufnr = bufnr, lsp_format = "fallback", timeout_ms = 1000 })
+end
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+	callback = function(args)
+		if vim.bo[args.buf].buftype == "" then
+			format(args.buf)
+		end
+	end,
+})
+
+vim.keymap.set("n", "fm", function()
+	format()
+end, { desc = "Format file" })

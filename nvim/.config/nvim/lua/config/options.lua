@@ -1,3 +1,12 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.g.editorconfig = true
+
+vim.g.netrw_banner = 0
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Basic Settings
 vim.opt.number = true -- Line numbers
 vim.opt.relativenumber = true -- Relative line numbers
@@ -30,7 +39,7 @@ vim.opt.termguicolors = true -- Enable 24-bit colors
 vim.opt.signcolumn = "yes" -- Always show sign column
 vim.opt.showmatch = true -- Highlight matching brackets
 vim.opt.matchtime = 2 -- How long to show matching bracket
-vim.opt.completeopt = "menuone,noinsert,noselect" -- Completion options
+vim.opt.completeopt = { "menuone", "noinsert", "noselect" } -- Completion options
 vim.opt.showmode = false -- Don't show mode in command line
 vim.opt.pumheight = 10 -- Popup menu height
 vim.opt.pumblend = 0 -- Popup menu transparency

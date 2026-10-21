@@ -1,6 +1,4 @@
-return {
-	{
-		"nmac427/guess-indent.nvim",
-		opts = {},
-	},
-}
+require("guess-indent").setup({
+	auto_cmd = true,
+	override_editorconfig = false,
+})
