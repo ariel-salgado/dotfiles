@@ -1,39 +1,33 @@
-return {
-	"mason-org/mason-lspconfig.nvim",
-	opts = {
-		ensure_installed = {
-			"cssls",
-			"eslint",
-			"emmet_language_server",
-			"html",
-			"jsonls",
-			"lua_ls",
-			"marksman",
-			"svelte",
-			"tailwindcss",
-			"taplo",
-			"vtsls",
-			"yamlls",
+require("mason").setup({
+	ui = {
+		border = "rounded",
+		icons = {
+			package_installed = "✓",
+			package_pending = "➜",
+			package_uninstalled = "✗",
 		},
-		automatic_enable = false,
 	},
-	dependencies = {
-		{
-			"mason-org/mason.nvim",
-			opts = {
-				ui = {
-					border = "rounded",
-				},
-			},
-		},
-		{
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
-			opts = {
-				ensure_installed = {
-					"stylua",
-				},
-			},
-		},
-		"neovim/nvim-lspconfig",
+	firewall = {
+		enabled = true,
 	},
-}
+})
+
+require("mason-lspconfig").setup({
+	automatic_enable = false,
+	ensure_installed = {
+		"cssls",
+		"eslint",
+		"emmet_language_server",
+		"html",
+		"jsonls",
+		"lua_ls",
+		"marksman",
+		"oxfmt",
+		"oxlint",
+		"svelte",
+		"tailwindcss",
+		"taplo",
+		"vtsls",
+		"yamlls",
+	},
+})

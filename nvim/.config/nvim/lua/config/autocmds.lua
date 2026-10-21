@@ -1,20 +1,6 @@
--- Restore last cursor position when reopening a file
-local last_cursor_group = vim.api.nvim_create_augroup("LastCursorGroup", {})
-vim.api.nvim_create_autocmd("BufReadPost", {
-	group = last_cursor_group,
-	callback = function()
-		local mark = vim.api.nvim_buf_get_mark(0, '"')
-		local lcount = vim.api.nvim_buf_line_count(0)
-		if mark[1] > 0 and mark[1] <= lcount then
-			pcall(vim.api.nvim_win_set_cursor, 0, mark)
-		end
-	end,
-})
-
 -- Highlight the yanked text for 200ms
-local highlight_yank_group = vim.api.nvim_create_augroup("HighlightYank", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = highlight_yank_group,
+	group = vim.api.nvim_create_augroup("HighlightYank", { clear = true }),
 	pattern = "*",
 	callback = function()
 		vim.hl.on_yank({
@@ -25,17 +11,42 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- No auto comments on new line
-local no_auto_comment_group = vim.api.nvim_create_augroup("NoAutoComment", {})
+-- Restore last cursor position when reopening a file
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = vim.api.nvim_create_augroup("LastCursorGroup", {}),
+	callback = function()
+		local mark = vim.api.nvim_buf_get_mark(0, '"')
+		local lcount = vim.api.nvim_buf_line_count(0)
+		if mark[1] > 0 and mark[1] <= lcount then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+})
+
+-- Auto resize splits when the terminal's window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+	command = "wincmd ="
+})
+
+-- No auto continue comments on new line
 vim.api.nvim_create_autocmd("FileType", {
-	group = no_auto_comment_group,
+	group = vim.api.nvim_create_augroup("NoAutoComment", {}),
 	callback = function()
 		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
 	end,
 })
 
+-- Show cursorline only in active window enable
+vim.api.nvim_create_autocmd({ 'WinEnter', "BufEnter" }, {
+	group = vim.api.nvim_create_augroup("active_cursorline", { clear = true }),
+	callback = function()
+		vim.opt_local.cursorline = true
+	end,
+})
+
 -- Highlight when stopping cursor
 local reference_highlight_group = vim.api.nvim_create_augroup("LspReferenceHighlight", { clear = true })
+
 vim.api.nvim_create_autocmd("CursorMoved", {
 	group = reference_highlight_group,
 	callback = function()
